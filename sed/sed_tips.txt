@@ -1,0 +1,91 @@
+# Basics
+
+- Options
+
+```
+sed <script>  # BRE
+sed -e <script> -e <script> ...  # multiple
+sed -E <script>  # ERE
+sed -n <script>  # quiet
+set -f <script-file>   # from script file
+sed -i[suffix] | --in-place[=suffix]  # in-place edit with suffix
+```
+
+- script
+<address><command>
+
+- addresses
+```
+'' 	all lines
+number 	nth line
+$ 	last line
+/regex/ 	lines matching regex pattern
+addr1,addr2 	range
+! 	negate : <address>!<command>
+```
+
+- commands
+```
+p 	print the pattern space (almost used with -n option)
+d 	delete the pattern space
+r <file> 	read a file at this line (not with range)
+w <file> 	write lines to the file
+		between r/w and <file>, only one or no space.
+y 	transliterate (like tr command)
+a 	append lines
+i 	insert lines
+c 	change lines
+n 	next line
+= 	print line number
+s 	substitute
+l 	print non-printable characters in escaped form
+q[code] 	quit with code
+{...} 	grouping commands
+```
+
+- s(substitute) command
+<address>s/<pattern>/<replacement>/<flags>
+
+- flags
+```
+g 	global (replace all)
+number 	nth occurence (replace nth only)
+<number>g 	 ignore before the nth match, then all replace from nth match
+i 	ignore case
+p 	print
+e 	execute
+w <file> 	write to the file
+```
+
+- multiline pattern space commands
+```
+N 	append next line to the pattern space
+P 	print up to the newline
+D 	delete up to the newline
+```
+
+- flow control commands
+```
+: <label> 	define a label
+b <label> 	branch to label. Label omitted, skip to end (next cycle)
+t <label> 	branches only if any substitution have occurred. Label omitted, skip to end (next cycle)
+```
+
+- hold buffer commands
+```
+h 	hold : copy pattern space to hold buffer
+g 	get : copy hold buffer to pattern space
+H 	append pattern space to hold buffer
+G 	append hold buffer to pattern space
+x 	exchange pattern space and hold buffer
+```
+
+
+# Examles
+
+- コマンドを実行する
+echo -e "/etc/hosts\n/etc/fstab" | sed 's/^/ls -l /e'
+
+- コメント行以外を"_"でインデントする
+echo -e "# hoge\nfuga\nfefe\n# awawa" | sed '/^[^#]/s/^/____/'
+

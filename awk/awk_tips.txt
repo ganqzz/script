@@ -1,0 +1,80 @@
+# Basics
+
+- Options
+
+```
+awk -f <script>
+
+awk -F , '{print $2}'
+awk -F '\t' '{print $2}'  # tab
+awk -F '\n' '{print $2}'  # newline
+awk -F '[,!]' '{print $2}'  # regex
+awk -F ABC '{print $2}'  # string(regex)
+
+awk -v hi=Hello '{print $2, hi}'  # variable
+```
+
+- Built-in Variables
+```
+IGNORECASE	0: false(default), non-zero: true
+FILENAME	Current input file name
+FS 		Input field separator (default: space, tab)
+RS 		Input record separator (default: newline)
+OFS 	Output field separator (default: space)
+ORS 	Output record separator (default: newline)
+NF 		Number of fields
+NR 		Number of records read so far
+FNR 	Number of records read so far in the current file
+```
+
+- Expansion
+```
+awk '{print $NF}'  # the last field
+awk '{print $(NF-1)}'
+```
+
+- Patterns
+```
+BEGIN
+END
+BEGINFILE
+ENDFILE
+/regex/
+pattern && pattern
+pattern || pattern
+pattern ? pattern : pattern
+(pattern)
+! pattern
+pattern1, pattern2   # range
+relational expression   # examples
+```
+
+- Functions
+```
+length(string)
+index(string, target)
+match(string, regexp)
+substr(string, start[, length])
+sub(regexp, newval[, string])
+gsub(regexp, newval[, string])
+split(string, array[, regexp])
+```
+
+# Examples
+
+- Expressions
+```
+$1 ~ /regex/
+NR >= 5
+$NF ~ /regex/
+START, END  # STARTの行からENDの行まで
+```
+
+- 最後の20行を削除する
+awk '{a[NR]=$0}NR>20{print a[NR-20]}'
+
+- 変数指定
+awk '$0 ~ var { print }' var=Hoge
+
+- using next
+awk -F":" '/^root/{print $1;next} {print $5}' /etc/passwd

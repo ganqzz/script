@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Description:
+#   This script simulates or a daemon.
+
+PID_FILE="/tmp/dummy-daemon.pid"
+
+trap "rm $PID_FILE; exit" SIGHUP SIGINT SIGTERM
+
+echo $$ > $PID_FILE
+
+while true
+do
+  sleep 10
+done
