@@ -1,6 +1,6 @@
 #!/bin/bash
 function glob_demo {
-  for file in *.not_found; do
+  for file in /tmp/*.glob_test; do
     echo $file
   done
 }
@@ -11,16 +11,16 @@ glob_demo
 echo "--- no nullglob end ---"
 echo
 
-echo "--- nullglob ---"
+echo "--- set nullglob ---"
 shopt -s nullglob
 glob_demo
 shopt -u nullglob
-echo "--- nullglob end ---"
+echo "--- set nullglob end ---"
 echo
 
-echo "--- failglob ---"
+echo "--- set failglob ---"
 shopt -s failglob
 glob_demo
 shopt -u failglob
-echo "--- failglob end ---"
+echo "--- set failglob end ---"
 echo

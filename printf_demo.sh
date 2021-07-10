@@ -30,13 +30,11 @@ echo
 
 printf '%.0s-' {1..20}; printf "\n"
 
-STR="Hello World!"
-CNT=$(wc -c <<< $STR)
-TMP_CNT=0
+text="Hello World!"
+length=$(wc -c <<< "$text")
 
 printf "Char Hex\n"
 
-while ((TMP_CNT < CNT - 1)); do
-  printf "%-4s 0x%-2X\n" "${STR:$TMP_CNT:1}" "'${STR:$TMP_CNT:1}"
-  ((TMP_CNT++))
+for ((i = 0; i < length; i++)); do
+  printf "%-4s 0x%-2X\n" "${text:$i:1}" "'${text:$i:1}"  # single quote: convert char to number
 done

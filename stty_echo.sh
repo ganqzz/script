@@ -1,5 +1,5 @@
 #!/bin/sh
-#Filename: password.sh
+# Filename: password.sh
 echo -n "Enter password: "
 stty -echo
 read PASSWORD

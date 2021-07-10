@@ -17,7 +17,7 @@ else
   echo not eq
 fi
 
-if ((x==y)) # space is no matter
+if ((x==y)) # spaces do not matter
 then
   echo '(())' ==
 else

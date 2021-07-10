@@ -1,6 +1,6 @@
 #/bin/sh
-#Filename: trap_signals.sh
-#Description: Signal handler
+# Filename: trap_signals.sh
+# Description: Signal handler
 
 # Signal handlers
 int_handler() {

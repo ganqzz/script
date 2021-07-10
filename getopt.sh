@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
-function main {
-  OPT=$(getopt -o ab:c:: -l long:: -- "$@")
+main() {
+  OPT=`getopt -o ab:c:: -l long:: -- "$@"`
   [ $? -ne 0 ] && exit 1
 
   eval set -- "$OPT"
