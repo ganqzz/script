@@ -1,8 +1,9 @@
 #!/bin/bash
 
-read -p "Enter (yes/no) or (yY/nN): " ANSWER
+# bash can omit the read command argument (default: REPLY)
+read -p "Enter (yes/no) or (yY/nN): "
 
-case "$ANSWER" in
+case "$REPLY" in
   [yY]|[yY][eE][sS])
     echo "You answered yes."
     ;;
@@ -13,18 +14,10 @@ case "$ANSWER" in
     echo "Invalid answer."
 esac
 
-case "$ANSWER" in
-  [yY]*)
-    echo "You answered yes."
-    ;;
-  *)
-    echo "You answered something else."
-esac
-
 # fall through
-read -p "Enter 1 or 2 or 3: " ANSWER
+read -p "Enter 1 or 2 or 3: "
 
-case "$ANSWER" in
+case "$REPLY" in
   1)
     echo "One"
     ;&

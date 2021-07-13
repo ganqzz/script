@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
-function ask_yes_no {
+ask_yes_no() {
   while true; do
     echo -n "$* [y/n]: "
-    read  # 省略したときは、"REPLY"になる
-    case $REPLY in
+    read ANSWER
+    case $ANSWER in
       [Yy]*)
         return 0
         ;;
@@ -19,9 +19,7 @@ function ask_yes_no {
 }
 
 if ask_yes_no "よろしいですか？"; then
-  # ここに「Yes」の時の処理を書く
   echo "Yes"
 else
-  # ここに「No」の時の処理を書く
   echo "No"
 fi

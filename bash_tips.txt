@@ -209,9 +209,9 @@ let x++
 
 ```
 command > file 2>&1
-command >& file   # 同上(bash拡張)
+command >& file   # 同上(bash shorthand)
 command 2>&1 | command2
-command |& command2   # 同上(bash拡張)
+command |& command2   # 同上(bash shorthand)
 ```
 
 - Named pipe (FIFO)

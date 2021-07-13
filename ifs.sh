@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 line="root:x:0:0:root:/root:/bin/bash"
 
@@ -10,7 +10,7 @@ for item in $line
 do
   [ $count -eq 0 ]  && user=$item
   [ $count -eq 6 ]  && shell=$item
-  let count++
+  count=`expr $count + 1`
 done
 
 IFS=$oldIFS

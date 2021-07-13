@@ -1,25 +1,25 @@
 #!/bin/bash
 x=01
 y=1
-echo comparing $x and $y
+echo comparing x=$x and y=$y
 
 if [[ $x == $y ]]  # prefer "==" to "="
 then
-  echo ==
+  echo [[ x == y ]]
 else
-  echo not ==
+  echo Not [[ x == y ]]
 fi
 
 if [[ $x -eq $y ]]
 then
-  echo eq
+  echo [[ x -eq y ]]
 else
-  echo not eq
+  echo Not [[ x -eq y ]]
 fi
 
-if ((x==y)) # spaces do not matter
+if ((x == y))
 then
-  echo '(())' ==
+  echo '((x == y))'
 else
-  echo not '(())' ==
+  echo Not '((x == y))'
 fi

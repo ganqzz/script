@@ -1,6 +1,6 @@
 #!/bin/bash
 function DEBUG() {
-  [[ "$DEBUG" == "on" ]] && $@ || :
+  [[ "$DEBUG" == "on" ]] && "$@" || :
 }
 
 for i in {1..10}

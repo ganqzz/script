@@ -13,14 +13,14 @@ mkdir -p "${DEMO_DIR}"
 
 # Redirect STDOUT and STDERR to a file.
 head -n3 /etc/passwd > ${FILE} 2>&1
-head -n3 /etc/passwd &> ${FILE}  # same: bash only
+head -n3 /etc/passwd &> ${FILE}  # bash shorthand
 echo "Contents of ${FILE}:"
 cat ${FILE}
 echo
 
 # Redirect STDOUT and STDERR through a pipe.
 head -n3 /etc/passwd 2>&1 | cat -n
-head -n3 /etc/passwd |& cat -n  # same: bash only
+head -n3 /etc/passwd |& cat -n  # bash shorthand
 echo
 
 #

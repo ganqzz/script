@@ -6,7 +6,7 @@ SELF="$0"
 RET=0
 
 function_one() {
-  local LOCAL_VAR1="one"
+  local var1="one"
   # <Replace with function code.>
 }
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo -n Count:
 tput sc
 
@@ -11,7 +11,7 @@ do
     tput ed
     echo -n $count
     sleep 1
-    let count++
+    count=`expr $count + 1`
   else break
   fi
 done

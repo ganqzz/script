@@ -1,21 +1,21 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "--- while loop ---"
 
-CTR=1
-while [ ${CTR} -le 9 ]
+cnt=1
+while [ ${cnt} -le 9 ]
 do
-  echo "CTR = ${CTR}"
-  ((CTR++))
+  echo "cnt = ${cnt}"
+  cnt=`expr $cnt + 1`
 done
 
 echo
 
 echo "--- until loop ---"
 
-CTR=1
-until [ ${CTR} -gt 9 ]
+cnt=1
+until [ ${cnt} -gt 9 ]
 do
-  echo "CTR = ${CTR}"
-  ((CTR++))
+  echo "cnt = ${cnt}"
+  cnt=`expr $cnt + 1`
 done

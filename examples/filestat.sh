@@ -3,7 +3,7 @@
 
 if [ $# -ne 1 ]
 then
-  echo "Usage: $0 basepath"
+  echo "Usage: $0 BASEPATH"
   exit
 fi
 path="$1"

@@ -2,11 +2,26 @@
 
 a="Hello"
 b="World"
-c=$a$b
+c="$a $b"
 
-# Unset or Empty
+echo $a
+echo $b
+echo $c
+
+echo
+echo --- Case conversion ---
+echo ${c^}  # upper first
+echo ${c^^}  # upper all
+echo ${c,}  # lower first
+echo ${c,,}  # lower all
+echo ${c~}  # swap first
+echo ${c~~}  # swap all
+
+echo
+echo --- Unset or Empty param exapansion ---
+# Unset or Empty param expansion
 # With ":", test unset and empty
-# No ":", test only unset, not empty
+# No ":", test only unset
 
 # - default value
 echo ${d-hoge} # => hoge
@@ -52,8 +67,9 @@ echo $f # => fuga
 
 # Slice ${var:offset:length}
 echo
+echo --- Slice ---
 echo $c
-echo ${#c}
+echo ${#c}  # length
 echo ${c:3}
 echo ${c:3:4}
 echo ${c: -4} # space is required
@@ -63,6 +79,7 @@ echo ${c:(-4):3}
 
 # Substitution
 echo
+echo --- Substitution ---
 fruits="apple banana banana cherry orange"
 echo $fruits
 echo ${fruits/banana/durian}
@@ -77,6 +94,7 @@ echo ${fruits/p*/durian}
 
 # Remove
 echo
+echo --- Remove ---
 str="fefe.awawa.piyo.fuga"
 echo $str
 echo ${str#*.} # remove shortest match from first
@@ -84,8 +102,9 @@ echo ${str##*.} # remove longest match from first
 echo ${str%.*} # remove shortest match from last
 echo ${str%%.*} # remove longest match from last
 
-# Empty abend
+# ABEND
 echo
+echo --- ABEND if Empty ---
 echo '${var:?}'
 echo ${var:?} # if empty, error and exit
 echo end # do not execute
