@@ -11,16 +11,14 @@ opterr=false
 declare -a params
 
 usage() {
-  echo "USAGE:"
-  echo " --aaa"
-  echo " --bbb=ARG"
-  echo " --ccc=[ARG]"
+  echo "USAGE: "
+  echo "    $(basename "$0") [--aaa] [--bbb=ARG] [--ccc=[ARG]]"
   exit 1
 }
 
-while [ $# -gt 0 ]
+while [[ $# -gt 0 ]]
 do
-  case $1 in
+  case "$1" in
     --bbb=*) flag_b=true; arg_b="${1#--bbb=}";;
     --ccc=*) flag_c=true; arg_c="${1#--ccc=}";;
     --aaa)
@@ -28,13 +26,13 @@ do
       ;;
     --bbb)
       flag_b=true
-      if [ "${2::1}" != "-" ]; then
+      if [[ "${2::1}" != "-" ]]; then
         arg_b=$2; shift
       fi
       ;;
     --ccc)
       flag_c=true
-      if [ "${2::1}" != "-" ]; then
+      if [[ "${2::1}" != "-" ]]; then
         arg_c=$2; shift
       fi
       ;;
@@ -56,7 +54,7 @@ if $opterr; then
 fi
 
 # save parameters
-while [ $# -gt 0 ]
+while [[ $# -gt 0 ]]
 do
   params+=("$1")
   shift
