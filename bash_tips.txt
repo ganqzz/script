@@ -37,21 +37,25 @@ extglob
 nocasematch : case insensitive in if/case statement
 
 
+# Shell operators
+
+
 # Pattern matching (File globs)
 
 - Wildcards
 *       # wildcard: 0 or more
 ?       # wildcard: 1 character
 
-- Character set
-[a-z]   # a-z ※ LC_COLLATEに注意する
+- Character Set
+[a-z]   # a-z  ※LC_COLLATEに注意する
 [-0-9]  # -, 0-9
 [0-9-]  # -, 0-9
 []]     # ]
 [[]     # [
 [\!]    # !
 [\^]    # ^
--       # -
+[-]     # -
+-       # -  ※わざわざSetにする必要はない
 [^a-z]  # negate
 [!a-z]  # negate : POSIX standard
 
@@ -118,7 +122,6 @@ $- : current option flags
 IFS : Internal Field Separator, defalut "<space><tab><newline>"
 RANDOM : random number between 0 - 32767
 
-
 - Declare variables
 ```
 typeset -i <int number>  # (obsolete)
@@ -167,6 +170,7 @@ echo fefe{hoge,}
 cp file{,.bak}  # cp file file.bak
 ```
 
+
 # Parameter expansion
 
 ```
@@ -202,7 +206,21 @@ let x++
 # Job Control
 
 - fg / bg / jobs
+
 - disown
+
+Detach the process from bash
+```
+disown <pid>
+<command> & disown  # immediately
+```
+
+- nohup (not bash built-in)
+
+Immune to HUP : keep running even if the parent process is killed
+```
+nohup <command> &
+```
 
 
 # Redirection / Pipe
@@ -210,6 +228,7 @@ let x++
 ```
 command > file 2>&1
 command >& file   # 同上(bash shorthand)
+command &> file   # 同上(better bash shorthand)
 command 2>&1 | command2
 command |& command2   # 同上(bash shorthand)
 ```
@@ -223,6 +242,7 @@ echo "Message" > pipe
 
 cat pipe  # 別シェル
 ```
+
 
 # Coprocess
 
@@ -242,23 +262,48 @@ read -u ${hoge[0]} s; echo $s
 # Script directory
 
 ```
-# sourceした場合、${BASH_SOURCE[0]}にはscript自身のファイル名が入る
-scr_dir="$(dirname "$BASH_SOURCE")"
+# sourceした場合、${BASH_SOURCE[0]}にはscript自身のファイル名が入る（$0の場合はcallerが入る）
+# この点が$0との違いになる
+scr_dir="$(dirname "${BASH_SOURCE[0]}")"
 
 # 絶対パスの取得
-
-```
-scr_dir="$(cd "$(dirname "$BASH_SOURCE")" && pwd)"
-scr_dir="$(cd "$(dirname "$BASH_SOURCE")" && pwd -P)" # linkを実体に置き換える
+scr_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+scr_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)" # linkを実体に置き換える
 ```
 
+- source example
+```
+$ cat outer.sh
+#!/usr/bin/env bash
+source ./middle.sh
 
-# History
+$ cat middle.sh
+#!/usr/bin/env bash
+source ./inner.sh
+
+$ cat inner.sh
+#!/usr/bin/env bash
+echo "\$0 = '$0'"
+echo "\${BASH_SOURCE[0]} = '${BASH_SOURCE[0]}'"
+echo "\${BASH_SOURCE[1]} = '${BASH_SOURCE[1]}'"
+echo "\${BASH_SOURCE[2]} = '${BASH_SOURCE[2]}'"
+
+$ ./outer.sh
+$0 = './outer.sh'
+$BASH_SOURCE[0] = './inner.sh'
+$BASH_SOURCE[1] = './middle.sh'
+$BASH_SOURCE[2] = './outer.sh'
+```
+
+
+# Command history
 
 ```
 history
+```
 
 - Event
+```
 !!   # 直前（最後）
 !$   # 直前（最後）
 !n   # n番目
@@ -275,13 +320,16 @@ history
 ```
 
 
-# Shortcut Key (readline and tty)
+# Shortcut key (readline)
 
+- 確認方法
+    \C- : Ctrl(C-<KEY>)
+    \e  : Meta(M-<KEY>) / Esc(ESC <KEY>)
 ```
-bind -p | grep -av "^#"
-stty -a
+bind -p | grep -v "^#"
 ```
 
+- デフォルトキーバインド
 ------------[カーソル移動関連]------------
 C-a 	beginning-of-line : 行頭へ移動
 C-e 	end-of-line : 行末へ移動
@@ -293,42 +341,28 @@ M-b 	backward-word : 1単語戻る
 ------------[編集関連]------------
 C-d 	delete-char : 1文字削除(Del)
 C-h 	backward-delete-char : 左1文字削除(BS)
-C-v TAB 	tab-insert : タブを挿入
+C-v <TAB> 	tab-insert : タブを挿入
 C-t 	transpose-chars : カーソル前後の文字を入れ替える
 M-t 	transpose-words : カーソル前後の単語を入れ替える
 M-u 	upcase-word : 単語を大文字にする
 M-l 	downcase-word : 単語を小文字にする
 C-k 	kill-line : 行末まで削除
 C-u 	unix-line-discard : 行頭まで削除
-M-d 	kill-word : 次の単語削除(単語の最後まで削除)
-M-Rubout(BS) 	backward-kill-word : 前の単語削除(単語の最初まで削除)
-C-w 	unix-word-rubout : 前の単語削除(スペースで区切られているものを単語とする)
+M-d 	kill-word : 次の単語削除(スペースTAB以外に_-/なども区切り)
+M-C-?(BS) / M-C-h 	backward-kill-word : 前の単語削除(スペースTAB以外に_-/なども区切り)
+C-w 	unix-word-rubout : 前の単語削除(スペースTABのみが区切り)
 C-y 	yank : 削除した文字列を貼り付け
 
 ------------[履歴関連]------------
 C-p 	previous-history : 直前のコマンド
 C-n 	next-history : 次のコマンド
-C-r 	reverse-search-history : コマンド履歴の後方インクリメンタル検索モード ※ fzf
-C-s 	forward-search-history : コマンド履歴の前方インクリメンタル検索モード ※ 画面ロック（stop）と被っている
+C-r 	reverse-search-history : コマンド履歴の後方インクリメンタル検索モード  ※fzf
+C-s 	forward-search-history : コマンド履歴の前方インクリメンタル検索モード  ※画面ロック（tty:stop）
 M-. 	yank-last-arg : 直前のコマンドの引数を貼り付け
 
 ------------[その他]------------
 C-l 	clear : 画面をクリア
 C-i 	complete : (TAB)
 C-d 	eof(end-of-file) : 入力終了
-C-j, C-m 	accpet-line : Enter
-C-[ 	 ESC
-
-------------[tty]------------
-C-c 	intr(interrupt) : フォアグランドで実行しているプログラムを強制終了
-C-z 	susp(suspend) : 
-C-s 	stop : 画面をロック ※ 画面をロックしているだけで処理や入力が止まっているわけではない
-C-q 	start : 画面を再開
-
-- Tips
-[Ctrl(\C)]
-[Meta(\e)]: [Esc]を押してから、あるいは[Alt]を押しながら。
-
-画面ロックを無効化
-stty stop undef
-
+C-j / C-m 	accpet-line : Enter
+C-[ 	ESC

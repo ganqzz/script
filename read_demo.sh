@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo -e "hoge\nfuga" | (read first; read second; echo -e "First: $first\nSecond: $second")
+echo '---'
+
 echo "Name?"
 read name
 

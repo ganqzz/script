@@ -1,5 +1,9 @@
 #!/bin/bash
 # redirection and file descriptor
+# 0: STDIN
+# 1: STDOUT
+# 2: STDERR
+
 set -e
 
 DEMO_DIR=/tmp/redirect_demo
@@ -11,6 +15,9 @@ fi
 
 mkdir -p "${DEMO_DIR}"
 
+# Redirect STDOUT to STDERR.
+echo "STDOUT to STDERR" >&2
+
 # Redirect STDOUT and STDERR to a file.
 head -n3 /etc/passwd > ${FILE} 2>&1
 head -n3 /etc/passwd &> ${FILE}  # bash shorthand
@@ -21,9 +28,10 @@ echo
 # Redirect STDOUT and STDERR through a pipe.
 head -n3 /etc/passwd 2>&1 | cat -n
 head -n3 /etc/passwd |& cat -n  # bash shorthand
+
 echo
 
-#
+# Redirect using file discriptors
 INPUT_FILE=${DEMO_DIR}/input.txt
 OUTPUT_FILE=${DEMO_DIR}/output.txt
 RW_FILE=${DEMO_DIR}/rw.txt
@@ -57,3 +65,13 @@ exec 6<> ${RW_FILE}
 echo -n "abcd" >&6
 cat <&6  # 続きから
 cat ${RW_FILE}
+
+echo
+
+#
+echo === redirect ===
+exec 9<&0 < ${FILE}
+while read name; do
+  echo $name | cut -d: -f1
+done
+exec 0<&9 9<&-

@@ -1,9 +1,10 @@
 # Basics
 
-- Options
+- BRE
 
+- Options
 ```
-sed <script>  # BRE
+sed [-e] <script>
 sed -e <script> -e <script> ...  # multiple
 sed -E <script>  # ERE
 sed -n <script>  # quiet

@@ -37,12 +37,12 @@ done
 echo
 # not properly work if it's uncontiguous
 for ((i = 0; i < ${#b[@]}; i++)); do
-  echo "$i: ${b[i]}"  # index can be referred by "$i" or "i"
+  echo "$i: ${b[i]}"  # index can be with or without "$" sign
 done
 
 echo
 for i in ${!b[@]}; do  # by index
-  echo "$i: ${b[i]}"  # index can be referred by "$i" or "i"
+  echo "$i: ${b[i]}"
 done
 
 # copy
@@ -68,5 +68,5 @@ echo ${assoc[@]}  # values
 
 # iteration
 for k in "${!assoc[@]}"; do  # quotation
-  echo "$k: ${assoc[$k]}"  # key be can only referred by "$k"
+  echo "$k: ${assoc[$k]}"  # key must be with "$" sign
 done

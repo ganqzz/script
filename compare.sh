@@ -5,16 +5,16 @@ echo comparing x=$x and y=$y
 
 if [[ $x == $y ]]  # prefer "==" to "="
 then
-  echo [[ x == y ]]
+  echo '[[ $x == $y ]]'
 else
-  echo Not [[ x == y ]]
+  echo Not '[[ $x == $y ]]'
 fi
 
 if [[ $x -eq $y ]]
 then
-  echo [[ x -eq y ]]
+  echo '[[ $x -eq $y ]]'
 else
-  echo Not [[ x -eq y ]]
+  echo Not '[[ $x -eq $y ]]'
 fi
 
 if ((x == y))
